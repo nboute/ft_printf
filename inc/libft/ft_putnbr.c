@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/04 10:45:20 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 17:55:01 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+void		ft_putnbr(int n)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
-
-	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
+	if (n < 0)
 	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
+		ft_putchar('-');
+		if (n == -2147483648)
 		{
-			ft_putcstr(str + i, '%');
+			ft_putchar('2');
+			ft_putnbr(147483648);
 		}
+		else
+			ft_putnbr(-n);
 	}
-}
-
-int		main()
-{
-	return (0);
+	else
+	{
+		if (n >= 10)
+		{
+			ft_putnbr(n / 10);
+			ft_putnbr(n % 10);
+		}
+		else
+			ft_putchar(n + '0');
+	}
 }

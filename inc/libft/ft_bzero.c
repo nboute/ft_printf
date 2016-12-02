@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 10:13:46 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/22 16:44:14 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+void	ft_bzero(void *s, size_t n)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
-
-	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
-	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
-	}
-}
-
-int		main()
-{
-	return (0);
+	ft_memset(s, 0, n);
 }

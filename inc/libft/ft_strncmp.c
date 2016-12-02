@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 13:41:16 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 19:31:45 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
-	va_list	a;
-	char	*str;
 
 	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
-	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
-	}
-}
-
-int		main()
-{
-	return (0);
+	if (n == 0)
+		return (0);
+	while (i + 1 < n && s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((int)((unsigned char)s1[i] - (unsigned char)s2[i]));
 }

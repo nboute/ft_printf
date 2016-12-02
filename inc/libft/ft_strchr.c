@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 12:47:10 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/22 16:45:52 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+char	*ft_strchr(const char *str, int c)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
+	unsigned int	i;
 
 	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
+	if (!c)
+		return ((char*)(str + ft_strlen(str)));
 	while (str[i])
 	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
+		if (str[i] == ((unsigned char)c))
+			return ((char*)(str + i));
+		i++;
 	}
-}
-
-int		main()
-{
 	return (0);
 }

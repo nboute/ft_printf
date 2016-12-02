@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 11:25:29 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 17:58:04 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+char	*ft_strcpy(char *dest, const char *src)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
+	int	i;
 
 	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
+	while (src[i])
 	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
+		dest[i] = src[i];
+		i++;
 	}
-}
-
-int		main()
-{
-	return (0);
+	dest[i] = '\0';
+	return (dest);
 }

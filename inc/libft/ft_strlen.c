@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 11:20:55 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 18:12:45 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+size_t	ft_strlen(const char *str)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
+	size_t n;
 
-	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
-	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
-	}
-}
-
-int		main()
-{
-	return (0);
+	n = 0;
+	while (str[n])
+		n++;
+	return (n);
 }

@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_lst_last.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/07 17:20:09 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/23 16:59:10 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+t_list	*ft_lst_last(t_list *list)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
+	t_list	*tmp;
 
-	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
-	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
-	}
-}
-
-int		main()
-{
-	return (0);
+	if (!list)
+		return (NULL);
+	tmp = list;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }

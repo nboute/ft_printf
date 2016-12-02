@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 11:35:39 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 18:13:49 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+char			*ft_strncat(char *dest, const char *src, size_t n)
 {
 	size_t	i;
-	va_list	a;
-	char	*str;
+	size_t	j;
 
-	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
+	i = ft_strlen((const char*)dest);
+	j = 0;
+	while (j < n && src[j])
 	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
+		dest[i + j] = src[j];
+		j++;
 	}
-}
-
-int		main()
-{
-	return (0);
+	dest[i + j] = '\0';
+	return (dest);
 }

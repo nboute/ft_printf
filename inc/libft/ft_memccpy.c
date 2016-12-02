@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 19:57:00 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 15:19:06 by nboute           ###   ########.fr       */
+/*   Created: 2016/11/03 10:55:04 by nboute            #+#    #+#             */
+/*   Updated: 2016/11/07 17:53:02 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ft_printf.h"
+#include "libft.h"
 
-void	ft_printf(int x, ...)
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
-	size_t	i;
-	va_list	a;
-	char	*str;
+	size_t			i;
+	unsigned char	*ptrd;
+	unsigned char	*ptrs;
 
 	i = 0;
-	va_start(a, x);
-	str = va_arg(a, char*);
-	while (str[i])
+	ptrd = (unsigned char*)dest;
+	ptrs = (unsigned char*)src;
+	while (i < n)
 	{
-		if (str[i] == '%')
-			ft_writef(str + i, a);
-		else
-		{
-			ft_putcstr(str + i, '%');
-		}
+		ptrd[i] = ptrs[i];
+		if (ptrd[i] == (unsigned char)c)
+			return ((void*)(ptrd + i + 1));
+		i++;
 	}
-}
-
-int		main()
-{
-	return (0);
+	return (NULL);
 }
