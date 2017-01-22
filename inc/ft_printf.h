@@ -6,12 +6,11 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 19:39:40 by nboute            #+#    #+#             */
-/*   Updated: 2016/12/02 14:40:38 by nboute           ###   ########.fr       */
+/*   Updated: 2017/01/22 09:22:07 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
-
 # define FT_PRINTF_H
 
 # include <string.h>
@@ -19,41 +18,53 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdarg.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
-enum conv
+/*
+**	flg_1: '-'
+**	flg_2: '+' || ' '
+**	flg_3: '#'
+**	flg_4: '0' || ' '
+*/
+
+typedef struct	s_info
 {
-	h,
-	hh,
-	l,
-	ll,
-	j,
-	z,
-};
+	int			flg_1;
+	char		*flg_2;
+	int			flg_3;
+	char		flg_4;
+	size_t		width;
+	int			pre;
+	char		len[2];
+	char		c;
+	size_t		slen;
+}				t_info;
 
-
-char	*ft_pf_spe_d(char*, void*, enum conv);
-char	*ft_pf_spe_oux(char*, void*, enum conv);
-char	*ft_pf_spe_c(char*, void*, enum conv);
-char	*ft_pf_spe_p(char*, void*, enum conv);
-char	*ft_pf_spe_s(char*, void*, enum conv);
+char			*ft_pf_spe_di(t_info *data, va_list l);
+char			*ft_pf_spe_oux(t_info *data, va_list l);
+char			*ft_pf_spe_c(t_info *data, va_list l);
+char			*ft_pf_spe_p(t_info *data, va_list l);
+char			*ft_pf_spe_s(t_info *data, va_list l);
 
 typedef struct	s_spe
 {
 	char		c;
-	char		*(*fct)(char*, void*, enum conv);
-}
-				t_spe;
+	char		*(*fct)(struct s_info *list, va_list l);
+}				t_spe;
 
-t_spe	g_spetab[] =
-{
-	{'d', &ft_pf_spe_d},
-	{'o', &ft_pf_spe_oux},
-	{'u', &ft_pf_spe_oux},
-	{'x', &ft_pf_spe_oux},
-	{'c', &ft_pf_spe_c},
-	{'p', &ft_pf_spe_p},
-	{'s', &ft_pf_spe_s}
-};
+char			*ft_wide(wchar_t *str);
+char			*ft_wide_p2(unsigned int c);
+char			*ft_wide_p3(unsigned int c);
+char			*ft_cpynchar(char *str, size_t n, int c);
+char			*ft_getnull(void);
+char			*ft_width(char *str, t_info *data);
+char			*ft_flags(char *str, t_info *data);
+char			*ft_flags_p2(char *str, t_info *data, size_t blen);
+char			*ft_pre(char *str, t_info *data);
+char			*ft_pre_str(char *str, t_info *data);
+char			*ft_pre_num(char *str, t_info *data);
+int				ft_printf(const char *frt, ...);
+t_info			*ft_getpflen(const char *str, t_info *data, size_t *i);
+t_info			*ft_getpflen_p2(const char *str, t_info *data, size_t *i);
 
 #endif
