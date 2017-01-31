@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 08:05:59 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/22 13:00:02 by nboute           ###   ########.fr       */
+/*   Updated: 2017/01/31 19:16:39 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char		*ft_getpwls(const char *str, t_info *data, size_t *i, va_list a)
 			return (ft_width(ft_flags(g_spetab[j].fct(data, a), data), data));
 		}
 	}
-	return (NULL);
+	return (ft_width(ft_flags(ft_strdup("\0"), data), data));
 }
 
 char		*ft_getformatf(const char *str, size_t *i, t_info *data, va_list a)
@@ -91,7 +91,9 @@ char		*ft_writef(const char *str, size_t *i, va_list a, size_t *len)
 		return (0);
 	if (!(result = ft_getformatf(str, i, data, a)))
 		return (0);
-//	*len += data->len;
+	*len += data->slen;
+	if (result)
+		write(1, result, data->slen);
 	return (result);
 }
 
@@ -100,27 +102,24 @@ int			ft_printf(const char *frt, ...)
 	size_t	i;
 	va_list	a;
 	size_t	len;
-	char	*buff;
 	char	*tmp;
 
 	i = 0;
+	len = 0;
 	va_start(a, frt);
-	buff = NULL;
 	while (frt[i])
 	{
 		if (frt[i] == '%')
-			buff = ft_strjoin_free(buff, ft_writef(frt, &i, a, &len));
+			ft_writef(frt, &i, a, &len);
 		else
 		{
-			buff = ft_strjoin_free(buff,
-					ft_strsub(frt, i, ft_strclen(frt + i, '%')));
+			tmp = ft_strsub(frt, i, ft_strclen(frt + i, '%'));
+			ft_putstr(tmp);
+			if (tmp)
+				ft_strdel(&tmp);
 			len += ft_strclen(frt + i, '%');
 			i += ft_strclen(frt + i, '%');
 		}
 	}
-	if (buff)
-		ft_putstr(buff);
-	if (buff)
-		return (ft_strlen(buff));
-	return (0);
+	return (len);
 }

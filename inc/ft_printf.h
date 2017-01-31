@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 19:39:40 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/22 09:22:07 by nboute           ###   ########.fr       */
+/*   Updated: 2017/01/31 16:25:20 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_info
 	char		len[2];
 	char		c;
 	size_t		slen;
+	short		err;
 }				t_info;
 
 char			*ft_pf_spe_di(t_info *data, va_list l);

@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:28:54 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/12 21:08:00 by nboute           ###   ########.fr       */
+/*   Updated: 2017/01/31 19:12:06 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char	*ft_wide_p2(unsigned int c)
 {
 	char			*str;
 
-	if (c <= 0x7F)
+	if (c == 0)
+		str = ft_strdup("\0");
+	else if (c <= 0x7F)
 	{
 		str = (char*)malloc(2);
 		str[0] = c;
@@ -67,8 +69,12 @@ char	*ft_wide(wchar_t *str)
 
 	i = 0;
 	res = NULL;
+	if (!*str)
+		return (ft_strdup(""));
 	while (str[i])
 	{
+		//if (str[i] > 55295 && str[i] < 57343 ||  )
+			//erreur
 		res = ft_strjoin_free(res, ft_wide_p2(str[i]));
 		i++;
 	}
