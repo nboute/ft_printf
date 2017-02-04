@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:28:54 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/31 19:12:06 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/04 21:11:49 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,66 @@ char	*ft_wide_p2(unsigned int c)
 	return (str);
 }
 
-char	*ft_wide(wchar_t *str)
+int		ft_count_bites(int c)
+{
+//	if (NB_CUR_MAX == 1)
+//		return (0);
+	if (c <= 0x7F)
+		return (1);
+	else if (c <= 0x7FF)
+		return (2);
+	else if (c <= 0xFFFF)
+		return (3);
+	else if (c <= 0x10FFFF)
+		return (4);
+	else
+		return (-1);
+}
+
+char	*ft_malloc_wstr(wchar_t *str, t_info *data)
+{
+	char	*res;
+	size_t	i;
+	int		bits;
+
+	i = 0;
+	bits = 0;
+	while (str[i] && bits != -1 && bits <= data->pre)
+	{
+		bits = ft_count_bites(str[i]);
+		if (bits != -1)
+			i += bits;
+	}
+	if (!i)
+		return (ft_strdup(""));
+	if (!(res = (char*)malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	return (res);
+}
+
+char	*ft_wide(wchar_t *str, t_info *data)
 {
 	size_t	i;
 	char	*res;
+	char	*tmp;
+	int		bits;
+	size_t	len;
 
-	i = 0;
-	res = NULL;
-	if (!*str)
-		return (ft_strdup(""));
-	while (str[i])
+	res = ft_malloc_wstr(str, data);
+	i = -1;
+	bits = 0;
+	len = 0;
+	while (str[++i] && ((int)len < data->pre || data->pre == -1))
 	{
-		//if (str[i] > 55295 && str[i] < 57343 ||  )
-			//erreur
-		res = ft_strjoin_free(res, ft_wide_p2(str[i]));
-		i++;
+		if ((bits = ft_count_bites(str[i])) == -1)
+			return (NULL);
+		if (bits <= data->pre || data->pre == -1)
+		{
+			tmp = ft_wide_p2(str[i]);
+			ft_strcat(res + len, tmp);
+			ft_strdel(&tmp);
+		}
+		len += bits;
 	}
-	return (res);
+	return ((res == NULL) ? ft_strdup("") : res);
 }

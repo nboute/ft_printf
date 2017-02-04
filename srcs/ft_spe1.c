@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 16:20:49 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/31 17:48:31 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/04 20:50:27 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,29 @@ char				*ft_pf_spe_s(t_info *data, va_list l)
 	if (data->c == 'S' || (data->c == 's' && data->len[0] == 'l'))
 	{
 		str = va_arg(l, wchar_t*);
-		if (!str)
+		if (!str && data->width <= 0)
 			return (ft_getnull());
-		str = ft_wide((wchar_t*)str);
+		str = ft_wide((wchar_t*)str, data);
 	}
 	else
 	{
 		str = va_arg(l, char*);
-		if (!str)
+		if (!str && data->width <= 0)
 			return (ft_getnull());
-		str = ft_strdup((char*)str);
+		if (str)
+			str = ft_strdup((char*)str);
 	}
-	data->slen = ft_strlen(str);
+	if (str)
+		data->slen = ft_strlen(str);
+	else
+		data->slen = 0;
+	if (!str)
+		return (ft_strdup("\0"));
 	return ((char*)str);
 }
 
 char				*ft_pf_spe_c(t_info *data, va_list l)
 {
-	unsigned int	n;
 	char			*c;
 
 	if (data->c == 'C' || data->len[0] == 'l')
@@ -49,7 +54,7 @@ char				*ft_pf_spe_c(t_info *data, va_list l)
 		c = (char*)malloc(2);
 		c[0] = (unsigned char)va_arg(l, int);
 		c[1] = '\0';
-		data->slen = 1;
+		data->slen = ft_strlen(c);
 	}
 	if (!*c)
 		data->slen++;
@@ -107,7 +112,16 @@ char				*ft_pf_spe_p(t_info *data, va_list l)
 		return (ft_strdup("%"));
 	ptr = (unsigned long)va_arg(l, void*);
 	if (!ptr)
-		return (ft_strdup("0x0"));
+	{
+		if (data->pre == -1)
+			return (ft_strdup("0x0"));
+		if (!(str = (char*)malloc(sizeof(char) * (data->pre + 2))))
+			return (NULL);
+		ft_strcpy(str, "0x");
+		if (data->pre > 0)
+			ft_cpynchar(str + 2, data->pre, '0');
+		return (str);
+	}
 	str = ft_utoa_base(ptr, 16, 1);
 	data->flg_3 = 1;
 	data->c = 'x';

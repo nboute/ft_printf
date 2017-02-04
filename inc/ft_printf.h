@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 19:39:40 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/31 16:25:20 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/04 21:49:28 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include "../libft/libft.h"
+
+# define MAX_BUFFER 1024
 
 /*
 **	flg_1: '-'
@@ -53,7 +55,7 @@ typedef struct	s_spe
 	char		*(*fct)(struct s_info *list, va_list l);
 }				t_spe;
 
-char			*ft_wide(wchar_t *str);
+char			*ft_wide(wchar_t *str, t_info *data);
 char			*ft_wide_p2(unsigned int c);
 char			*ft_wide_p3(unsigned int c);
 char			*ft_cpynchar(char *str, size_t n, int c);
@@ -63,9 +65,19 @@ char			*ft_flags(char *str, t_info *data);
 char			*ft_flags_p2(char *str, t_info *data, size_t blen);
 char			*ft_pre(char *str, t_info *data);
 char			*ft_pre_str(char *str, t_info *data);
-char			*ft_pre_num(char *str, t_info *data);
+char			*ft_pre_num(char *str, t_info *data, size_t n, size_t base);
 int				ft_printf(const char *frt, ...);
 t_info			*ft_getpflen(const char *str, t_info *data, size_t *i);
 t_info			*ft_getpflen_p2(const char *str, t_info *data, size_t *i);
+char			*ft_getformatf(const char *str, size_t *i, t_info *data,
+		va_list a);
+
+char			*ft_getpwls(const char *str, t_info *data, size_t *i,
+		va_list a);
+int				ft_spe_exists(char c);
+void			ft_write_buffer(const char *str, size_t n);
+int				ft_writef(const char *str, size_t *i, va_list a);
+char			*ft_getformatf(const char *str, size_t *i, t_info *data,
+		va_list a);
 
 #endif

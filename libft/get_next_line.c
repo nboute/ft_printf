@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 12:28:00 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/19 16:21:30 by nboute           ###   ########.fr       */
+/*   Updated: 2017/01/25 15:02:23 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ char				*ft_read(int fd, char *str)
 	char			buff[BUFF_SIZE + 1];
 	char			*tmp;
 	int				ret;
-	int				size;
 
-	size = 0;
 	if (str)
 		if (ft_strchr(str, '\n'))
 			return (str);

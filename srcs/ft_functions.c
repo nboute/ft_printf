@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 17:24:33 by nboute            #+#    #+#             */
-/*   Updated: 2017/01/22 14:55:09 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/04 18:53:34 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,13 @@ t_info		*ft_getpflen(const char *str, t_info *data, size_t *i)
 	else
 		ft_getpflen_p2(str, data, i);
 	return (data);
+}
+
+int			ft_spe_exists(char c)
+{
+	c = ft_tolower(c);
+	if (c == 's' || c == 'p' || c == 'd' || c == 'i' || c == 'o' || c == 'u'
+			|| c == 'x' || c == 'c' || c == '%')
+		return (0);
+	return (1);
 }

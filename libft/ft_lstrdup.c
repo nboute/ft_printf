@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
+/*   ft_lstrdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/11 16:31:13 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/01 10:35:32 by nboute           ###   ########.fr       */
+/*   Created: 2017/02/01 11:56:02 by nboute            #+#    #+#             */
+/*   Updated: 2017/02/01 12:55:38 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char			*ft_strjoin_free(char *s1, char *s2)
+char	*ft_lstrdup(const char *src, size_t src_len)
 {
-	size_t	n;
 	char	*str;
+	long	*lsrc;
+	long	*lcpy;
+	char	*csrc;
+	char	*ccpy;
 
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1 && s2)
+	str = malloc(sizeof(*str) * (src_len + 1));
+	lsrc = (long*)src;
+	lcpy = (long*)str;
+	while ((unsigned long)src_len >= sizeof(long))
 	{
-		str = ft_strdup(s2);
-		ft_strdel(&s2);
-		return (str);
+		*lcpy++ = *lsrc++;
+		src_len -= sizeof(long);
 	}
-	if (!s2 && s1)
+	csrc = (char*)lsrc;
+	ccpy = (char*)lcpy;
+	while (src_len > 0)
 	{
-		str = ft_strdup(s1);
-		ft_strdel(&s1);
-		return (str);
+		*ccpy++ = *csrc++;
+		src_len--;
 	}
-	n = ft_strlen(s1) + ft_strlen(s2);
-	if ((str = (char*)malloc(n + 1)) == NULL)
-		return (NULL);
-	ft_strcpy(str, s1);
-	ft_strcat(str, s2);
-	ft_strdel(&s1);
-	ft_strdel(&s2);
+	*ccpy = '\0';
 	return (str);
 }

@@ -6,7 +6,7 @@
 #    By: tlovato <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/20 10:01:12 by tlovato           #+#    #+#              #
-#    Updated: 2017/01/13 08:50:58 by nboute           ###   ########.fr        #
+#    Updated: 2017/02/04 21:10:02 by nboute           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = libftprintf.a
 
 CC = gcc
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_PATH = ./srcs/
 INC_PATH = ./inc/
@@ -26,7 +26,8 @@ SRC_FILES = ft_printf.c \
 	  ft_functions.c \
 	  ft_spe1.c \
 	  ft_wide.c \
-	  ft_width.c
+	  ft_width.c \
+	  ft_dataflg.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
 
@@ -42,21 +43,21 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
-all : $(LIBFT_PATH)$(LIBFT) $(NAME)
-
-$(LIBFT_PATH)$(LIBFT):
-	@$(MAKE) -C $(LIBFT_PATH)
+all : $(NAME)
 
 $(NAME) : $(OBJ)
+	@$(MAKE) -C $(LIBFT_PATH)
 	@cp $(LIBFT_PATH)$(LIBFT) $(NAME)
+	@rm -f $(LIBFT_PATH)$(LIBFT)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
 clean :
-	rm -f $(OBJ_O)
+	rm -rf $(OBJ_PATH)
+	@$(MAKE) clean -C $(LIBFT_PATH)
 
 fclean : clean
-	rm -f $(NAME)	
+	rm -f $(NAME)
 
 re : fclean all
 
