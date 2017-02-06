@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 19:58:23 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/04 20:52:26 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/06 17:54:10 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,15 @@ char	*ft_pre_num(char *str, t_info *data, size_t n, size_t base)
 	base = (ft_tolower(data->c) == 'x') ? 16 : 10;
 	base = (ft_tolower(data->c) == 'o') ? 8 : base;
 	if (!data->pre && !ft_getnbr_base(str, base) && (!data->flg_3
-				|| ft_tolower(data->c == 'x')))
+				|| ft_tolower(data->c) != 'o'))
 	{
-		data->slen = 0;
-		tmp = ft_strdup("\0");
+		tmp = ((ft_tolower(data->c) == 'd' || ft_tolower(data->c) == 'i')
+				&& !data->flg_3) ? ft_strdup(data->flg_2) : ft_strdup("\0");
+		data->slen = ft_strlen(tmp);
 	}
 	else if ((int)(base = ft_numdigits_base(str + n, base)) < data->pre)
 	{
-		tmp = (char*)malloc(data->pre + n);
-		ft_strncpy(tmp, str, n);
+		tmp = ft_strncpy(ft_strnew(data->pre + n), str, n);
 		tmp[n] = '\0';
 		ft_cpynchar(tmp + n, data->pre - base, '0');
 		ft_strcat(tmp + n, str + n);
@@ -113,17 +113,19 @@ char	*ft_pre_num(char *str, t_info *data, size_t n, size_t base)
 char	*ft_pre(char *str, t_info *data)
 {
 	char	c;
+	size_t	i;
 
+	i = (data->slen > 1) ? 2 : 0;
 	c = ft_tolower(data->c);
 	if (data->pre != -1 && *str)
 	{
 		if (!ft_spe_exists(data->c) && data->c != '%')
 			data->flg_4 = ' ';
 		if ((c == 'x' || c == 'u') && data->flg_3)
-			return (ft_pre_num(str, data, 2, 0));
+			return (ft_pre_num(str, data, i, 0));
 		else if (c == 'd' || c == 'i' || c == 'o' || c == 'u' || c == 'x')
-			return (ft_pre_num(str, data, !ft_isdigit(str[0]), 0));
-		else if (c == 's' || c == 'c')
+			return (ft_pre_num(str, data, !(ft_isdigit(str[0])), 0));
+		else if (c == 's')
 			return (ft_pre_str(str, data));
 	}
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:28:54 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/04 21:11:49 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/06 13:18:30 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*ft_malloc_wstr(wchar_t *str, t_info *data)
 			i += bits;
 	}
 	if (!i)
-		return (ft_strdup(""));
+		return (ft_strdup("\0"));
 	if (!(res = (char*)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	return (res);
@@ -123,5 +123,5 @@ char	*ft_wide(wchar_t *str, t_info *data)
 		}
 		len += bits;
 	}
-	return ((res == NULL) ? ft_strdup("") : res);
+	return ((res == NULL) ? ft_strdup("\0") : res);
 }

@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 16:20:49 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/04 20:50:27 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/06 17:55:02 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char				*ft_pf_spe_s(t_info *data, va_list l)
 	if (data->c == 'S' || (data->c == 's' && data->len[0] == 'l'))
 	{
 		str = va_arg(l, wchar_t*);
-		if (!str && data->width <= 0)
+		if (!str)
 			return (ft_getnull());
 		str = ft_wide((wchar_t*)str, data);
 	}
 	else
 	{
 		str = va_arg(l, char*);
-		if (!str && data->width <= 0)
+		if (!str)
 			return (ft_getnull());
 		if (str)
 			str = ft_strdup((char*)str);

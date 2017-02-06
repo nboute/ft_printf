@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 08:05:59 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/04 20:48:30 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/06 15:55:00 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ void		ft_write_buffer(const char *str, size_t n)
 	static size_t	index = 0;
 
 	if (!buff)
-		buff = (char*)ft_memalloc(MAX_BUFFER + 1);
-	buff[MAX_BUFFER] = '\0';
-	if (!str && buff)
+		buff = ft_strnew(MAX_BUFFER + 1);
+	if ((!str || !n) && buff)
 	{
 		write(1, buff, index);
 		ft_strdel(&buff);
@@ -93,9 +92,8 @@ int			ft_printf(const char *frt, ...)
 	i = 0;
 	len = 0;
 	va_start(a, frt);
-	while (frt[i])
+	while (frt[i] && !(l = 0))
 	{
-		l = 0;
 		if (frt[i] == '%')
 			l = ft_writef(frt, &i, a);
 		if (l == -1)
@@ -103,9 +101,10 @@ int			ft_printf(const char *frt, ...)
 		else
 		{
 			len += l;
-			ft_write_buffer(frt + i, ft_strclen(frt + i, '%'));
-			len += ft_strclen(frt + i, '%');
-			i += ft_strclen(frt + i, '%');
+			l = ft_strclen(frt + i, '%');
+			ft_write_buffer(frt + i, l);
+			len += l;
+			i += l;
 		}
 	}
 	ft_write_buffer(NULL, 0);
