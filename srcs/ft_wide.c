@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:28:54 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/06 13:18:30 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/06 18:57:29 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_wide_p2(unsigned int c)
 
 	if (c == 0)
 		str = ft_strdup("\0");
-	else if (c <= 0x7F)
+	else if (c <= 0x7F || (MB_CUR_MAX == 1 && c < 256))
 	{
 		str = (char*)malloc(2);
 		str[0] = c;
@@ -64,9 +64,9 @@ char	*ft_wide_p2(unsigned int c)
 
 int		ft_count_bites(int c)
 {
-//	if (NB_CUR_MAX == 1)
-//		return (0);
-	if (c <= 0x7F)
+	if ((MB_CUR_MAX == 1 && c > 255) || (MB_CUR_MAX == 4 && c > 55295 && c < 57344))
+		return (-1);
+	else if (c <= 0x7F || (MB_CUR_MAX == 1 && c < 256))
 		return (1);
 	else if (c <= 0x7FF)
 		return (2);
