@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 18:55:22 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/10 15:31:03 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 23:12:58 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ char		*ft_getpwls(const char *str, t_info *data, size_t *i, va_list a)
 	data->c = str[*i];
 	*i += (str[*i] != 0);
 	while (g_spetab[++j].c)
+	{
 		if (g_spetab[j].c == ft_tolower(data->c))
-			return (ft_width(ft_flags
-						(g_spetab[j].fct(data, a), data, NULL), data));
-	tmp = ft_strdup("0");
-	tmp[0] = data->c;
+			return (ft_width(ft_flags(g_spetab[j].fct(data, a),
+							data, NULL), data));
+	}
+	tmp = ft_strndup(&data->c, 1);
 	return (ft_width(ft_flags(tmp, data, NULL), data));
 }
 
