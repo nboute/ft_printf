@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/30 19:39:40 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/04 21:49:28 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:29:23 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_info
 	int			pre;
 	char		len[2];
 	char		c;
-	size_t		slen;
+	int			slen;
 	short		err;
 }				t_info;
 
@@ -55,13 +55,14 @@ typedef struct	s_spe
 	char		*(*fct)(struct s_info *list, va_list l);
 }				t_spe;
 
+int				ft_count_bytes(int c);
 char			*ft_wide(wchar_t *str, t_info *data);
 char			*ft_wide_p2(unsigned int c);
 char			*ft_wide_p3(unsigned int c);
 char			*ft_cpynchar(char *str, size_t n, int c);
 char			*ft_getnull(void);
 char			*ft_width(char *str, t_info *data);
-char			*ft_flags(char *str, t_info *data);
+char			*ft_flags(char *str, t_info *data, char *tmp);
 char			*ft_flags_p2(char *str, t_info *data, size_t blen);
 char			*ft_pre(char *str, t_info *data);
 char			*ft_pre_str(char *str, t_info *data);

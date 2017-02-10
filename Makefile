@@ -3,62 +3,59 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tlovato <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: nboute <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/02/20 10:01:12 by tlovato           #+#    #+#              #
-#    Updated: 2017/02/04 21:10:02 by nboute           ###   ########.fr        #
+#    Created: 2017/01/04 20:02:22 by nboute            #+#    #+#              #
+#    Updated: 2017/02/07 22:57:29 by nboute           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+.PHONY: make all clean fclean re
 
 NAME = libftprintf.a
 
+LIB = -L libft/ -lft
+
+LIBFT = libft/libft.a
+
+CFLAGS = -c -Wall -Wextra -Werror
+
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
 
-SRC_PATH = ./srcs/
-INC_PATH = ./inc/
-LIBFT_PATH = ./libft/
+C_DIR = srcs/
 
-LIBFT = libft.a
-
-SRC_FILES = ft_printf.c \
+SRCS = ft_printf.c \
 	  ft_functions.c \
 	  ft_spe1.c \
 	  ft_wide.c \
 	  ft_width.c \
 	  ft_dataflg.c
 
-SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
+SRC = $(addprefix $(C_DIR), $(SRCS))
 
-OBJ_PATH = ./obj/
-OBJ_O = $(SRC_FILES:.c=.o)
-OBJ = $(addprefix $(OBJ_PATH), $(OBJ_O))
+OBJ = $(SRCS:.c=.o)
 
-INC = $(INC_PATH)
-INC_CC = $(foreach DIR, $(INC), -I$(DIR))
-CFLAGS += $(INC_CC)
-
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@mkdir -p $(OBJ_PATH)
-	@$(CC) $(CFLAGS) -o $@ -c $<
+INC = -I includes -I libft/
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
-	@$(MAKE) -C $(LIBFT_PATH)
-	@cp $(LIBFT_PATH)$(LIBFT) $(NAME)
-	@rm -f $(LIBFT_PATH)$(LIBFT)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+$(NAME): $(OBJ)
+	make -C libft
+	cp $(LIBFT) $(NAME)
+	rm -f $(LIBFT)
+	ar rc $(NAME) $^
+
+$(LIBFT):
+	make -C libft/
+
+$(OBJ) : $(SRC)
+	$(CC) $(CFLAGS) $^ $(INC)
 
 clean :
-	rm -rf $(OBJ_PATH)
-	@$(MAKE) clean -C $(LIBFT_PATH)
+	make clean -C libft/
+	rm -f $(OBJ)
 
 fclean : clean
 	rm -f $(NAME)
 
 re : fclean all
-
-.PHONY : all clean fclean re

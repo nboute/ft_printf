@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 08:05:59 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/06 15:55:00 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:22:52 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_info		*ft_newdata(void)
 	data->width = 0;
 	data->pre = -1;
 	data->len[0] = '\0';
+	data->slen = 0;
 	data->c = '\0';
 	return (data);
 }
@@ -34,16 +35,17 @@ t_info		*ft_newdata(void)
 int			ft_writef(const char *str, size_t *i, va_list a)
 {
 	t_info	*data;
-	size_t	len;
+	int		len;
 	char	*result;
 
 	(*i)++;
 	if (!(data = ft_newdata()))
 		return (0);
-	if (!(result = ft_getformatf(str, i, data, a)))
+	result = ft_getformatf(str, i, data, a);
+	if (!result && data->slen != -1)
 		return (0);
 	len = data->slen;
-	if (result && data->slen)
+	if (result && data->slen > 0)
 		ft_write_buffer(result, data->slen);
 	if (result)
 		free(result);
@@ -52,6 +54,8 @@ int			ft_writef(const char *str, size_t *i, va_list a)
 	if (data)
 		free(data);
 	data = NULL;
+	if (len == -1)
+		ft_write_buffer(NULL, 0);
 	return (len);
 }
 
@@ -74,7 +78,7 @@ void		ft_write_buffer(const char *str, size_t n)
 	ft_lstrcat(buff, str, index, i);
 	n -= i;
 	index = (index + i) % MAX_BUFFER;
-	if (index == 0)
+	if (index == 0 && n)
 		write(1, buff, MAX_BUFFER);
 	if (index == 0)
 		ft_strdel(&buff);

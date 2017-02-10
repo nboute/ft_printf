@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/04 18:55:22 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/06 13:44:19 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:31:03 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ char		*ft_getpwls(const char *str, t_info *data, size_t *i, va_list a)
 	*i += (str[*i] != 0);
 	while (g_spetab[++j].c)
 		if (g_spetab[j].c == ft_tolower(data->c))
-			return (ft_width(ft_flags(g_spetab[j].fct(data, a), data), data));
+			return (ft_width(ft_flags
+						(g_spetab[j].fct(data, a), data, NULL), data));
 	tmp = ft_strdup("0");
 	tmp[0] = data->c;
-	return (ft_width(ft_flags(tmp, data), data));
+	return (ft_width(ft_flags(tmp, data, NULL), data));
 }
 
 char		*ft_getformatf(const char *str, size_t *i, t_info *data, va_list a)
@@ -112,11 +113,12 @@ char		*ft_flags_p2(char *str, t_info *data, size_t blen)
 	return (tmp);
 }
 
-char		*ft_flags(char *str, t_info *data)
+char		*ft_flags(char *str, t_info *data, char *tmp)
 {
-	char	*tmp;
-
-	if (!str)
+	if (data->slen == -1)
+		if (str)
+			ft_strdel(&str);
+	if (data->slen == -1 || !str)
 		return (NULL);
 	tmp = str;
 	if (ft_tolower(data->c) == 'o' && data->flg_3 && str)

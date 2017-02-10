@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 16:20:49 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/06 17:55:02 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:21:02 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ char				*ft_pf_spe_s(t_info *data, va_list l)
 {
 	void			*str;
 
+	data->slen = 0;
 	if (data->c == 'S' || (data->c == 's' && data->len[0] == 'l'))
 	{
+		data->c = 'S';
 		str = va_arg(l, wchar_t*);
 		if (!str)
 			return (ft_getnull());
@@ -30,11 +32,9 @@ char				*ft_pf_spe_s(t_info *data, va_list l)
 			return (ft_getnull());
 		if (str)
 			str = ft_strdup((char*)str);
+		if (str)
+			data->slen = ft_strlen(str);
 	}
-	if (str)
-		data->slen = ft_strlen(str);
-	else
-		data->slen = 0;
 	if (!str)
 		return (ft_strdup("\0"));
 	return ((char*)str);
@@ -43,10 +43,17 @@ char				*ft_pf_spe_s(t_info *data, va_list l)
 char				*ft_pf_spe_c(t_info *data, va_list l)
 {
 	char			*c;
+	int				carac;
 
 	if (data->c == 'C' || data->len[0] == 'l')
 	{
-		c = ft_wide_p2(va_arg(l, unsigned int));
+		carac = va_arg(l, int);
+		if (ft_count_bytes(carac) == -1)
+		{
+			data->slen = -1;
+			return (NULL);
+		}
+		c = ft_wide_p2(carac);
 		data->slen = ft_strlen(c);
 	}
 	else

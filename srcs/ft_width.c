@@ -6,7 +6,7 @@
 /*   By: nboute <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 19:58:23 by nboute            #+#    #+#             */
-/*   Updated: 2017/02/06 17:54:10 by nboute           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:27:02 by nboute           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_width(char *s, t_info *data)
 	char	*res;
 	int		i;
 
-	if (!s && data->width <= 0)
+	if (!s && (data->width <= 0 || data->slen == -1))
 		return (NULL);
 	data->slen = (ft_strlen(s) == 0 && ft_tolower(data->c) == 'c')
 		? 1 : ft_strlen(s);
@@ -119,7 +119,8 @@ char	*ft_pre(char *str, t_info *data)
 	c = ft_tolower(data->c);
 	if (data->pre != -1 && *str)
 	{
-		if (!ft_spe_exists(data->c) && data->c != '%')
+		if (!ft_spe_exists(data->c) && data->c != '%' &&
+				ft_tolower(data->c) != 's')
 			data->flg_4 = ' ';
 		if ((c == 'x' || c == 'u') && data->flg_3)
 			return (ft_pre_num(str, data, i, 0));
